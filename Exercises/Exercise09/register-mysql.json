@@ -11,6 +11,7 @@
         "topic.prefix": "dbserver1",
         "database.include.list": "inventory",
         "table.include.list": "inventory.motos",
+        "column.mask.with.6.chars": "inventory.motos.telefono",
         "schema.history.internal.kafka.bootstrap.servers": "kafka:9092",
         "schema.history.internal.kafka.topic": "schema-changes.inventory"
     }
