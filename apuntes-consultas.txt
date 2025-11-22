@@ -1,0 +1,74 @@
+db.listingsAndReviews.find(
+    { "address.country": "Brazil" ,"name": { $ne: ""}},
+    { 
+        "name": 1, 
+        "address.country": 1, 
+        "address.market": 1, 
+        "_id": 0 
+    }
+
+).sort({ "name": 1 }).limit(10);
+
+airbnb> let query = { 
+...     "address.country": "Brazil",
+...     "name": { $ne: "" } 
+... };
+
+airbnb> let projection = { 
+...     "name": 1,
+...     "address.country": 1,
+...     "address.market": 1, 
+...     "_id": 0 
+... };
+
+airbnb> db.listingsAndReviews.find(query, projection).sort({ "name": 1 }).limit(10)
+
+db.listingsAndReviews.aggregate([
+    { $match: query },      
+    { $project: projection }, 
+    { $sort: { "name": 1 } },
+    { $limit: 10 }
+])
+
+db.listingsAndReviews.aggregate([
+    {
+        $match: {
+            "address.country": "Brazil",
+            "name": { $ne: "" }
+        }
+    },
+    {
+        $project: {
+            "name": 1,
+            "address.country": 1,
+            "address.market": 1, 
+            "_id": 0
+        }
+    },
+    {
+        $sort: { "name": 1 }
+    },
+    {
+        $limit: 1
+    }
+])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

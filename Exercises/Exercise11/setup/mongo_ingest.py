@@ -103,9 +103,9 @@ class MongoFlightIngestor:
 
 def main():
     # --- CONFIGURATION SECTION ---
-    CONNECTION_STRING = "mongodb://<username>:<password>@<host>:<port>"
-    DATABASE = "<database_name>"
-    COLLECTION = "<collection_name>"
+    CONNECTION_STRING = "mongodb://root:example@localhost:27017"
+    DATABASE = "flights_db"
+    COLLECTION = "flights"
     FILENAME = "flights_data_backup.json"
     # ------------------------------
 
