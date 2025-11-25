@@ -30,7 +30,7 @@ The goal is to build the aggregation pipeline to query the following requirement
 
 There are different ways to achieve this:
 1. Use the find method with projection and sort.
-2. Use the aggregation framework with the `$match`, `$project`, `$sort`, and `$limit` stages. 
+2. Use the aggregation framework with the `$match`, `$project`, `$sort`, and `$limit` stages.
 
 ## Extra Exercise: Max property price
 

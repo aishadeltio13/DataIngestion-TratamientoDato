@@ -54,6 +54,19 @@ db.listingsAndReviews.aggregate([
 ])
 
 
+Comando ver la base de datos en la terminal:
+docker compose exec kafka /kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 --from-beginning --property print.key=true --topic dbserver1.inventory.customers
+
+Comando entrar en la base de datos desde la terminal debezium:
+docker compose exec mysql bash -c "mysql -u root -pdebezium inventory"
+
+Entrar en la base de datos para hacer cosas mongodb:
+docker exec -it <container_id> mongosh -u root -p example
+
+
+
+
+
 
 
 
