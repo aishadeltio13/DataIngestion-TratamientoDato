@@ -5,35 +5,41 @@ from datetime import datetime, timedelta
 # Establish MongoDB connection
 client = MongoClient('mongodb://root:example@localhost:27017/') 
 
-db = client['ecommerce']
-collection = db['order_changes']
+# --- CORRECCIÓN 1: NOMBRES EXACTOS ---
+db = client['ecommerce_db']       
+collection = db['changes_orders'] 
 
 def get_orders_per_status():
     pipeline = [
-      ####################################################
-      ## TODO: Create the pipeline to get the aggregation required
-      ####################################################
+      { "$group": { "_id": "$status", "count": { "$sum": 1 } } },
+      { "$sort": { "count": -1 } }
     ]
     
     results = collection.aggregate(pipeline)
     
     for result in results:
-        print(f"Status: {result['_id']} - Count: {result['count']}")
+        # Usamos .get() por si el estado es nulo
+        estado = result.get('_id', 'Unknown')
+        print(f"Status: {estado} - Count: {result['count']}")
 
 def get_top_price_order():
-    top_order = collection.find(
-      ####################################################
-      ## TODO: Use "collection.find" to get the top order
-      ####################################################
-    )
+    # Buscamos todos, ordenamos por 'total_amount' descendente (-1) y limitamos a 1
+    top_order_cursor = collection.find().sort("total_amount", -1).limit(1)
     
-    top_order = list(top_order)
+    # Convertimos cursor a lista
+    top_order = list(top_order_cursor)
+    
     if top_order:
-        print(f"Top price order: Order ID {top_order[0]['order_id']} - Total Amount: ${top_order[0]['total_amount']:.2f}")
+        # Extraemos los datos del primer (y único) resultado
+        order = top_order[0]
+        oid = order.get('order_id', 'N/A')
+        amount = order.get('total_amount', 0)
+        print(f"Top price order: Order ID {oid} - Total Amount: ${amount:.2f}")
     else:
         print("No orders found.")
 
 try:
+    print("Iniciando análisis... (Ctrl+C para salir)")
     while True:
         print("-" * 40)
         print(f"Order status count at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}:")
